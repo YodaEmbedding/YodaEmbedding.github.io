@@ -1,0 +1,4 @@
+*_ltex.json
+.hugo_build.lock
+/archetypes/
+/public/
