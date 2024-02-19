@@ -41,6 +41,12 @@ pygmentsStyle = "native"
     url = "/about/"
     weight = -110
 
+# content/about/index.md
+[[menu.main]]
+    name = "Art"
+    url = "/art/"
+    weight = -115
+
 # Make the tags and categories pages accessible directly from the navbar.
 [[menu.main]]
     name = "Tags"
