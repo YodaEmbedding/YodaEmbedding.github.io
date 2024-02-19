@@ -6,7 +6,8 @@ hideLastMod = true
 +++
 
 
-
+I am a former Master's student from Simon Fraser University.
+I am interested in deep learning, artificial intelligence, programming languages (e.g. Python, C++, Rust, Haskell, etc.), compilers, compression, open source, Linux, terminal code editors (Neovim), mathematics, image processing, photography, and physics.
 
 <!--
 I have a Masters in Applied Science (Engineering) from Simon Fraser University.
@@ -66,6 +67,7 @@ Skill ranks: ▁▂▃▄▅▆▇
 - ▂ Haskell
 - ▂ JavaScript
 - ▂ OpenMP
+- ▂ SQL
 - ▂ VHDL
 - ▂ Vimscript
 

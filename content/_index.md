@@ -475,7 +475,8 @@ publications:
 <!-- # Bio -->
 
 I am a former Master's student from Simon Fraser University.
-I am interested in deep learning, artificial intelligence, programming languages (e.g. Python, C++, Rust, Haskell, etc.), compilers, compression, open source, Linux, terminal code editors (Neovim), mathematics, and since I did my undergrad in Engineering Physics, I guess one might also say physics. :)
+I am interested in deep learning, artificial intelligence, programming languages (e.g. Python, C++, Rust, Haskell, etc.), compilers, compression, open source, Linux, terminal code editors (Neovim), mathematics, image processing, photography, and physics.
+<!-- , and since I did my undergrad in Engineering Physics, I guess one might also say physics. :) -->
 
 <!--
 [![Stack Overflow](assets/img/icons/stackoverflow-32x32.png)](https://stackoverflow.com/users/365102/mateen-ulhaq)
