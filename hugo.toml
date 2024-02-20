@@ -48,15 +48,15 @@ pygmentsStyle = "native"
     weight = -115
 
 # Make the tags and categories pages accessible directly from the navbar.
-[[menu.main]]
-    name = "Tags"
-    url = "/tags/"
-    weight = -120
+# [[menu.main]]
+#     name = "Tags"
+#     url = "/tags/"
+#     weight = -120
 
-[[menu.main]]
-    name = "Categories"
-    url = "/categories/"
-    weight = -130
+# [[menu.main]]
+#     name = "Categories"
+#     url = "/categories/"
+#     weight = -130
 
 
 [params]
