@@ -76,7 +76,7 @@ aliases = ["/photography/"]
 
 | ![](/~mulhaq/assets/img/art-large/together_till_the_end.jpg) |
 |:--:|
-| *"Together Till The End" \| Stanley Park, Vancouver, BC* |
+| *Together Till The End \| Stanley Park, Vancouver, BC* |
 
 <br />
 
