@@ -92,5 +92,15 @@ pygmentsStyle = "native"
     filename = "sitemap.xml"
 
 
+[markup]
+    # defaultMarkdownHandler = "pandoc"
+
+
 [markup.goldmark.renderer]
     unsafe = true  # Allow raw HTML
+
+
+# https://gohugo.io/about/security-model/#security-policy
+[security.exec]
+    allow = ['^(dart-)?sass(-embedded)?$', '^go$', '^npx$', '^postcss$', '^pandoc$']
+
