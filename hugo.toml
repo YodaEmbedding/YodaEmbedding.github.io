@@ -89,9 +89,8 @@ pygmentsStyle = "native"
 
 
 [sitemap]
-  filename = "sitemap.xml"
+    filename = "sitemap.xml"
 
 
 [markup.goldmark.renderer]
-unsafe = true  # Allow raw HTML
-
+    unsafe = true  # Allow raw HTML
