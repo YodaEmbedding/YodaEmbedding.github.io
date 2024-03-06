@@ -171,6 +171,13 @@ Extending this technique, scalable multi-task codecs such as [^ref-choi2021laten
   alt="Hyperprior compression architecture. Like the simple compression architecture, but with an additional branch which takes y, compresses it using a 'simple compression architecture', which outputs means and scales. These means and scales are used to construct distributions that are used to encode y."
 >}}
 {{< /figure >}}
+{{< figure mode="subfigure"
+  src="assets/img/learned-compression/arch-overview-autoregressive.png"
+  label="fig:intro/arch-comparison/autoregressive"
+  caption="Autoregressive compression architecture."
+  alt="Autoregressive compression architecture. Like the hyperprior compression architecture, but y is decoded in several time steps. The means and scales for the part of y being decoded are improved by also using information about previously decoded elements from earlier time steps. One way to simulate this time-changing process during training is by applying a masked convolution to the quantized y_hat."
+>}}
+{{< /figure >}}
 {{< /figure >}}
 
 
@@ -353,6 +360,11 @@ Some popular choices for entropy models are discussed below.
 
 
 
+
+## Basic entropy models
+
+
+
 ### "Fully factorized" entropy bottleneck
 
 One entropy model is the "fully factorized" *entropy bottleneck*, as introduced by Ballé *et al.* [^ref-balle2018variational].
@@ -406,6 +418,190 @@ The Gaussian conditional is not an entropy model on its own, by our definition.
 
 
 
+<!-- TODO: Another image showing something about the hyperprior would be nice. -->
+
+
+
+## Autoregressive entropy models
+
+Let \\( \boldsymbol{y} = (y\_1, \ldots, y\_N) \\).
+Then, by the [chain rule](https://en.wikipedia.org/wiki/Chain_rule_\(probability\)),
+the probability distribution for this sequence can be expressed as
+\\[
+\begin{equation}
+  \label{eqn:autoregressive_full_context}
+  p(\boldsymbol{y})
+  = p(y\_1, \ldots, y\_N)
+  = \prod\_{i=1}^{N} p(y\_i | y\_{1}, \ldots, y\_{i-1}).
+\end{equation}
+\\]
+This requires a fairly long context.
+It is common to restrict this context to a fixed number of previous elements, e.g., the previous \\( K \\) elements:
+\\[
+\begin{equation}
+  p(y\_i | y\_{1}, \ldots, y\_{i-1})
+  \approx p(y\_i | y\_{i-1}, y\_{i-2}, \ldots, y\_{i-K}),
+\end{equation}
+\\]
+so that \\( \eqref{eqn:autoregressive_full_context} \\) becomes
+\\[
+  p(\boldsymbol{y})
+  \approx \prod\_{i=1}^{N} p(y\_i | y\_{i-1}, y\_{i-2}, \ldots, y\_{i-K}).
+\\]
+An entropy model that relies upon previously decoded elements to predict the next element is known as an *autoregressive* context model.
+
+
+{{< figure
+  label="fig:intro/context-models"
+  mode="container"
+  caption=`
+Available context during decoding for various context models.
+`
+>}}
+
+{{< figure
+  src="assets/img/learned-compression/context-model-rasterscan.png"
+  label="fig:intro/context-models/rasterscan"
+  mode="subfigure"
+  caption="raster scan"
+  alt="Raster scan context model. Previously decoded elements are used to predict the next to-be-decoded element. All elements above the current element have been previously decoded, as have the elements to the left in the current row."
+  figureattrs=`style="width: 30%;"`
+>}}
+{{< /figure >}}
+
+{{< figure
+  src="assets/img/learned-compression/context-model-checkerboard.png"
+  label="fig:intro/context-models/checkerboard"
+  mode="subfigure"
+  caption="checkerboard"
+  alt="Checkerboard context model. Previously decoded elements form a checkerboard pattern around the current to-be-decoded element. In particular, the immediate 4-connected neighbors have been previously decoded."
+  figureattrs=`style="width: 30%;"`
+>}}
+{{< /figure >}}
+
+{{< /figure >}}
+
+Various popular choices for autoregressive context models are discussed below.
+
+
+
+### Raster scan
+
+PixelCNN [^ref-oord2016pixel] defines an autoregressive model for 2D image data.
+Elements are decoded in raster-scan order, as shown in {{< cref "fig:intro/context-model-rasterscan-decoding-order" >}}.
+
+
+{{< figure
+  src="assets/img/learned-compression/context-model-rasterscan-decoding-order.png"
+  label="fig:intro/context-model-rasterscan-decoding-order"
+  caption=`
+Raster scan decoding order.
+The top-left element is decoded first; and
+the bottom-right element is decoded last.
+`
+  alt="Raster scan (or zig-zag) decoding order. The elements are decoded from left to right, row by row, from top to bottom."
+  imgattrs=`style="width: 30%;"`
+>}}
+{{< /figure >}}
+
+
+Elements that have been decoded earlier are used to help predict the encoding distribution parameters for the next element to be decoded.
+For the autoregressive "raster scan" decoding order, this means that all elements above the current element have been previously decoded, as have the elements to the left in the current row.
+In practice, only the previously decoded elements within a small neighborhood around the to-be-decoded element are considered.
+This is visualized in {{< cref "fig:intro/context-models/rasterscan" >}}.
+
+Only the previously decoded elements should be used to predict the next element.
+This requirement is known as "causality".
+To ensure this is accurately modelled during training, a masked convolution is applied to the quantized \\( \boldsymbol{\hat{y}} \\).
+The convolutional kernel is masked to zero out any elements that have not yet been decoded.
+
+
+{{< figure
+  src="assets/img/learned-compression/context-model-rasterscan-intuitive.png"
+  label="fig:intro/context-model-rasterscan-intuitive"
+  caption=`
+Process for decoding the vector for a single spatial location using the autoregressive "raster scan" context model.
+`
+  alt="Process for decoding the vector for a single spatial location using the autoregressive 'raster scan' context model."
+>}}
+{{< /figure >}}
+
+
+This mechanism was first used for learned image compression by Minnen *et al.* [^ref-minnen2018joint], and later by Cheng *et al.* [^ref-cheng2020learned].
+The high-level architecture for these autoregressive models is visualized in {{< cref "fig:intro/arch-comparison/autoregressive" >}}.
+{{< cref "fig:intro/context-model-rasterscan-intuitive" >}} visualizes the process for decoding a \\( M\_y \times 1 \times 1 \\) vector located at a given spatial location in the \\( \boldsymbol{\hat{y}} \\) latent tensor of shape \\( M\_y \times H\_y \times W\_y \\).
+First, a masked convolution is applied to the currently decoded \\( \boldsymbol{\hat{y}} \\) to generate a \\( 2 M_y \times 1 \times 1 \\) vector.
+Note that all the decoded elements within the spatial window across all channels are used to generate this vector.
+This vector is concatenated with the corresponding colocated \\( 2 M_y \times 1 \times 1 \\) vector from the hyperprior side-information branch.
+This concatenated vector is then fed into a 1x1 ConvNet, which is a fully connected network from the perspective of the vector.
+This gives us the means and scales for the encoding distributions of the to-be-decoded elements within the to-be-decoded vector.
+<!-- The vector outputted by the masked convolution -->
+
+
+
+### Checkerboard
+
+Introduced by He *et al.* [^ref-he2021checkerboard], the "checkerboard" context model is another autoregressive model, i.e., it uses previously decoded elements to predict the next element.
+In the first time step, all the even elements (known as "anchors") are decoded.
+In the second time step, all the odd elements (known as "non-anchors") are decoded.
+{{< cref "fig:intro/context-models/checkerboard" >}} visualizes the available context when decoding a non-anchor element using the previously decoded anchor elements.
+He *et al.* [^ref-he2021checkerboard] experimentally demonstrate that the checkerboard choice of anchors is quite good since most of the predictive power comes from the immediate 4-connected neighbors.
+
+<!-- TODO: Reproduce relevant images from paper about which reference neighbors have best correlation/prediction ability. -->
+
+{{< figure
+  src="assets/img/learned-compression/context-model-checkerboard-timesteps.png"
+  label="fig:intro/context-model-checkerboard-timesteps"
+  caption=`
+Latent tensor state at various time steps during the decoding process using the autoregressive "checkerboard" context model.
+`
+  alt="Latent tensor state at various time steps during the decoding process using the autoregressive 'checkerboard' context model."
+>}}
+{{< /figure >}}
+
+{{< cref "fig:intro/context-model-checkerboard-timesteps" >}} visualizes the latent tensor state at various time steps during the decoding process.
+As shown, the "checkerboard" context model only requires two time steps to decode the entire latent tensor.
+In contrast, the "raster scan" context model requires \\( H\_y \times W\_y \\) time steps, which increasingly grows as the image resolution increases.
+Thus, the "checkerboard" context model has better parallelism and is often much faster to decode.
+However, this comes at a cost of slightly worse RD performance compared to the "raster scan" context model.
+This is remedied by He *et al.* [^ref-he2022elic] in their "ELIC" model, which is more easily parallelizable, and exceeds the RD performance of the "raster scan" context model.
+
+{{< figure
+  src="assets/img/learned-compression/context-model-checkerboard-intuitive.png"
+  label="fig:intro/context-model-checkerboard-intuitive"
+  caption=`
+Process for decoding the vector for a single spatial location using the autoregressive "checkerboard" context model.
+`
+  alt="Process for decoding the vector for a single spatial location using the autoregressive 'checkerboard' context model."
+>}}
+{{< /figure >}}
+
+The specific process for decoding the vector for a single spatial location is visualized in {{< cref "fig:intro/context-model-checkerboard-intuitive" >}}.
+As shown, He *et al.* [^ref-he2021checkerboard] follow the exact same architectural choices as used by Minnen *et al.* [^ref-minnen2018joint] and Cheng *et al.* [^ref-cheng2020learned] for the "raster scan" context model.
+
+
+
+### Conditional channel groups
+
+Minnen *et al.* [^ref-minnen2020channelwise] introduced a context model that uses previously decoded channel groups to help predict successive channel groups.
+He *et al.* [^ref-he2022elic] proposed an improvement to the original design by using unequally-sized channel groups (e.g., 16, 16, 32, 64, and 192 channels for the various groups).
+The order in which channel groups of different sizes are decoded is visualized in {{< cref "fig:intro/context-model-channel-conditional-boxes" >}}.
+
+
+{{< figure
+  src="assets/img/learned-compression/context-model-channel-conditional-boxes.png"
+  label="fig:intro/context-model-channel-conditional-boxes"
+  caption=`
+Available context during decoding of channel groups. As denoted by the arrows, previously decoded channel groups are used to help predict successive channel groups. The numbers denote the number of channels in each group.
+`
+  alt="Available context during decoding of channel groups. Previously decoded channel groups are used to help predict successive channel groups. Smaller groups are used to predict bigger groups."
+  imgattrs=`style="width: 75%;"`
+>}}
+{{< /figure >}}
+
+
+ELIC [^ref-he2022elic] uses a channel-conditional context model, which encodes each channel group using a checkerboard context model.
+The checkerboard context model uses information from the previously decoded channel groups alongside the hyperprior side information, as can be seen in the [CompressAI implementation](https://github.com/InterDigitalInc/CompressAI/blob/v1.2.6/compressai/models/sensetime.py#L318-L323).
 
 
 
@@ -459,6 +655,8 @@ mbt, Cheng, Checkerboard, ELIC, ...
 Other popular or interesting works: HiFiC, MLIC++/etc, Sandwiched, Cool CHIC, low entropy, ...
 At the very least, mention a list of interesting papers. But figures from papers and brief overview of methods and architecture are nice too.
 Other model types: GAN, RNN, ...
+
+Animation of raster scan from slides? Maybe as a gif...
 
 For our "paper club" presentation, too?
 
@@ -536,3 +734,4 @@ Floating table of contents.
 
 [^ref-he2021checkerboard]: D. He, Y. Zheng, B. Sun, Y. Wang, and H. Qin, “Checkerboard context model for efficient learned image compression,” in *Proc. IEEE/CVF CVPR*, 2021, pp. 14766–14775. Available: <https://arxiv.org/abs/2103.15306>
 
+[^ref-minnen2020channelwise]: D. Minnen and S. Singh, “Channel-wise autoregressive entropy models for learned image compression,” in *Proc. IEEE ICIP*, 2020. Available: <https://arxiv.org/abs/2007.08739>
