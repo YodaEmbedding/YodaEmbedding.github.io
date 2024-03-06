@@ -1,0 +1,14 @@
+<figure>
+{{- if true -}} <!-- No special modes for now. -->
+  {{- .Page.Scratch.Add "tableCounter" 1 -}}
+  {{- .Page.Scratch.SetInMap "labels"
+    (.Get "label") (.Page.Scratch.Get "tableCounter")
+  -}}
+  {{- .Inner | markdownify -}} <!-- table content -->
+  <div style="margin-bottom: 1.0em;"></div>
+  <figcaption>
+    <b>Table {{ .Page.Scratch.Get "tableCounter" }}.</b>
+    {{ .Get "caption" | markdownify -}}
+  </figcaption>
+{{- end -}}
+</figure>

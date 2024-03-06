@@ -1,0 +1,16 @@
+<!--
+  TODO: may need to run JavaScript to actually get labels before they are defined...
+  Do we have any other clever solutions? Perhaps the user specifies a delta label instead?
+  And later, we assert that that delta was correctly chosen. :)
+  This might be a bit too complicated for a simple website, though...
+  Another option is to cache the labels between runs (inside Store), and tell the user to run hugo at least twice for correct labels... just like how LaTeX works.
+-->
+{{- $label := .Get 0 -}}
+{{- $labels := .Page.Scratch.Get "labels" -}}
+{{- if (isset $labels $label) -}}
+  {{- $figureCounter := index $labels $label -}}
+  Figure {{ $figureCounter -}}
+{{- else -}}
+  <!-- <span class="error" style="color: red">Label not found</span> -->
+  the figure below
+{{- end -}}

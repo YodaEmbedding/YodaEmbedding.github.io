@@ -1,0 +1,58 @@
+<!--
+  Another possibility might be to use figure counters:
+  https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_counter_styles/Using_CSS_counters
+-->
+<!-- TODO: nested figure auto levels?! (and multiple levels of figure counters?!) meh, too difficult... for now, just manually specify index -->
+<!-- Style should be moved into CSS... Might want to fork our own theme or something. And use tailwind for dark mode support or something. -->
+{{- if (or (eq (.Get "mode") "container") (eq (.Get "mode") "")) -}}
+<figure style="display: block; background-color: #ffffff; padding: 1.0em; margin-top: 2.0em; margin-bottom: 2.0em; border: 1px solid #e8e8e8; border-radius: 0.5em; box-shadow: 0 0 0.5em #e8e8e8; text-align: center; ">
+{{- else if (eq (.Get "mode") "subfigure") -}}
+<figure style="display: inline-block; margin: 0.5em; text-align: center; ">
+{{- end -}}
+{{- if (eq (.Get "mode") "container") -}}
+  {{- .Page.Scratch.Add "figureCounter" 1 -}}
+  {{- .Page.Scratch.SetInMap "labels"
+    (.Get "label") (.Page.Scratch.Get "figureCounter")
+  -}}
+  {{- .Page.Scratch.Set "subfigureCounter" 0 -}}
+  {{- .Inner | markdownify -}} <!-- subfigures -->
+  <figcaption>
+    <b>Figure {{ .Page.Scratch.Get "figureCounter" }}.</b>
+    {{ .Get "caption" | markdownify -}}
+  </figcaption>
+{{- else if (eq (.Get "mode") "subfigure") -}}
+  {{- .Page.Scratch.Add "subfigureCounter" 1 -}}
+  <!-- Convert subfigure counter to alpha letter -->
+  {{- $subfigureCounterText := printf "%c"
+    (add 96 (.Page.Scratch.Get "subfigureCounter"))
+  -}}
+  {{- .Page.Scratch.SetInMap "labels"
+    (.Get "label") (printf "%d.%s"
+      (.Page.Scratch.Get "figureCounter")
+      ($subfigureCounterText)
+    )
+  -}}
+  <!--
+  Inter-subfigure spacing
+  {{- if (ge (.Page.Scratch.Get "subfigureCounter") 2) -}}
+    <div style="margin-bottom: 1.0em;"></div>
+  {{- end -}}
+  -->
+  <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" />
+  <figcaption>
+    <b>({{ $subfigureCounterText }})</b>
+    {{ .Inner | markdownify -}} <!-- caption -->
+  </figcaption>
+  <div style="margin-bottom: 1.0em;"></div>
+{{- else -}}
+  {{- .Page.Scratch.Add "figureCounter" 1 -}}
+  {{- .Page.Scratch.SetInMap "labels"
+    (.Get "label") (.Page.Scratch.Get "figureCounter")
+  -}}
+  <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" />
+  <figcaption>
+    <b>Figure {{ .Page.Scratch.Get "figureCounter" }}.</b>
+    {{ .Inner | markdownify -}} <!-- caption -->
+  </figcaption>
+{{- end -}}
+</figure>
