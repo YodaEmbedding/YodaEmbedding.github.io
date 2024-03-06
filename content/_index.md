@@ -500,9 +500,9 @@ Some of my recent publications include:
 
 Some fun projects I've worked on:
 
-- [Building a mini autograd engine (Python) [Presentation]](assets/pdf/2024-building-a-mini-autograd-autodiff-engine-slides.pdf)
+- [Building a mini autograd engine (Python) [Slides]](assets/pdf/2024-building-a-mini-autograd-autodiff-engine-slides.pdf)
 - [CompressAI Trainer (Python)](https://github.com/InterDigitalInc/CompressAI-Trainer)
-- [Particle filter likelihood kernel on FPGA and GPU (C++, HLS, CUDA)](assets/pdf/2021-particle-filter-likelihood-kernel-fpga-hls-slides.pdf)
+- [Particle filter likelihood kernel on FPGA and GPU (C++, HLS, CUDA) [Slides]](assets/pdf/2021-particle-filter-likelihood-kernel-fpga-hls-slides.pdf)
 - [Chess engine (Rust)](https://github.com/YodaEmbedding/rs-chess)
 - [Frece: frecency indexed database (Rust)](https://github.com/YodaEmbedding/frece)
 - [Dotfiles](https://github.com/YodaEmbedding/dotfiles)
