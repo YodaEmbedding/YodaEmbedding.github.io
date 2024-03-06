@@ -6,9 +6,9 @@
 <!-- Style should be moved into CSS... Might want to fork our own theme or something. And use tailwind for dark mode support or something. -->
 {{- .Page.Scratch.Add "figureCounter" 1 -}}
 {{- if (or (eq (.Get "mode") "container") (eq (.Get "mode") "")) -}}
-<figure style="display: block; background-color: #ffffff; padding: 1.0em; margin-top: 2.0em; margin-bottom: 2.0em; border: 1px solid #e8e8e8; border-radius: 0.5em; box-shadow: 0 0 0.5em #e8e8e8; text-align: center; ">
+<figure class="block bg-white dark:bg-neutral-700 p-4 my-8 rounded-md shadow-md shadow-neutral-300 dark:shadow-neutral-800 text-center">
 {{- else if (eq (.Get "mode") "subfigure") -}}
-<figure style="display: inline-block; margin: 0.5em; text-align: center; ">
+<figure class="inline-block m-2 text-center">
 {{- end -}}
 {{- if (eq (.Get "mode") "container") -}}
   {{- .Page.Scratch.SetInMap "labels"

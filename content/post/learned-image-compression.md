@@ -510,3 +510,7 @@ Floating table of contents.
 
 [^ref-giesen2014ryg_rans]: F. Giesen, “Ryg_rans.” GitHub, 2014. Available: <https://github.com/rygorous/ryg_rans>
 
+[^ref-oord2016pixel]: A. van den Oord, N. Kalchbrenner, and K. Kavukcuoglu, “Pixel recurrent neural networks,” in *Proc. ICML*, PMLR, 2016, pp. 1747–1756. Available: <https://arxiv.org/abs/1601.06759>
+
+[^ref-he2021checkerboard]: D. He, Y. Zheng, B. Sun, Y. Wang, and H. Qin, “Checkerboard context model for efficient learned image compression,” in *Proc. IEEE/CVF CVPR*, 2021, pp. 14766–14775. Available: <https://arxiv.org/abs/2103.15306>
+
