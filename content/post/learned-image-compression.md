@@ -336,46 +336,63 @@ conditional
 
 
 
-Some popular choices for entropy models include:
+Some popular choices for entropy models are discussed below.
 
--   A "fully factorized" *entropy bottleneck*, as introduced by Ballé *et al.* [^ref-balle2018variational].
-    Let \\( p\_{{\hat{y}}\_{c,i}} : \mathbb{Z} \to [0, 1] \\) denote the probability mass distribution used to encode the \\( i \\)-th element \\( \hat{y}\_{c,i} \\) from the \\( c \\)-th channel of \\( \boldsymbol{\hat{y}} \\).
-    The same encoding distribution \\( p\_{{\hat{y}}\_c} \\) is used for all elements within the \\( c \\)-th channel, i.e., \\( p\_{{\hat{y}}\_{c,i}} = p\_{{\hat{y}}\_c}, \forall i \\).
-    This entropy model works best when all such elements \\( \hat{y}\_{c,1}, \hat{y}\_{c,2}, \ldots, \hat{y}\_{c,N} \\) are independently and identically distributed (i.i.d.).
 
-    Ballé *et al.* [^ref-balle2018variational] model the encoding distribution as a static non-parametric distribution that is computed as the binned area under a probability density function \\( f\_{c} : \mathbb{R} \to \mathbb{R} \\), with a corresponding cumulative distribution function \\( F\_{c} : \mathbb{R} \to [0, 1] \\).
-    Then,
-    \\[
-    \begin{equation}
-      % \label{eqn:p_y_c_integral}
-      p\_{\boldsymbol{\hat{y}}\_c}(\hat{y}\_{c,i})
-      = \int\_{-\frac{1}{2}}^{\frac{1}{2}} f(\hat{y}\_{c,i} + \tau) \\, d\tau
-      = F\_{c}(\hat{y}\_{c,i} + 1/2) - F\_{c}(\hat{y}\_{c,i} - 1/2).
-    \end{equation}
-    \\]
-    \\( F\_{c} \\) is modelled using a small fully-connected network composed of five linear layers with channels of sizes \\( [1, 3, 3, 3, 3, 1] \\), whose parameters are tuned during training.
-    Note that \\( F\_{c} \\) is not conditioned on any other information, and is thus static.
 
--   A *Gaussian conditional*, as introduced by Ballé *et al.* [^ref-balle2018variational].
-    Let \\( f\_i(y) = \mathcal{N}(y; {\mu\_i}, {\sigma\_i}^2) \\) be a Gaussian distribution with mean \\( {\mu\_i} \\) and variance \\( {\sigma\_i}^2 \\).
-    Then, like in (1), <!-- {{< cref "eqn:p_y_c_integral" >}}, --> the encoding distribution \\( p\_{\boldsymbol{\hat{y}}\_i} \\) is the binned area under \\( f\_i \\):
-    \\[
-    \begin{equation}
-      % \label{eqn:p_y_i_integral}
-      p\_{\boldsymbol{\hat{y}}\_i}(\hat{y}\_i)
-      = \int\_{-\frac{1}{2}}^{\frac{1}{2}} f\_i(\hat{y}\_i + \tau) \\, d\tau.
-      % = F\_i(\hat{y}\_i + 1/2) - F\_i(\hat{y}\_i - 1/2).
-    \end{equation}
-    \\]
-    In the mean-scale variant of the "hyperprior" model introduced by Ballé *et al.* [^ref-balle2018variational],
-    the parameters \\( {\mu\_i} \\) and \\( {\sigma\_i}^2 \\) are computed by
-    \\( [{\mu\_i}, {\sigma\_i}^2] = (h\_s(\boldsymbol{\hat{z}}))\_i \\).
-    Here, the latent representation \\( \boldsymbol{\hat{z}} = \operatorname{Quantize}[h\_a(\boldsymbol{y})] \\) is computed by the analysis transform \\( h\_a \\), and then encoded using an entropy bottleneck and transmitted as *side information*;
-    and \\( h\_s \\) is a synthesis transform.
-    This architecture is visualized in {{< cref "fig:intro/arch-comparison/hyperprior" >}}.
-    Cheng *et al.* [^ref-cheng2020learned] define \\( f\_i \\) as a mixture of \\( K \\) Gaussians --- known as a Gaussian mixture model (GMM) --- with parameters \\( {\mu}\_{i}^{(k)} \\) and \\( {\sigma}\_{i}^{(k)} \\) for each Gaussian, alongside an affine combination of weights \\( {w}\_{i}^{(1)}, \ldots, {w}\_{i}^{(K)} \\) that satisfy the constraint \\( \sum\_k {w}\_{i}^{(k)} = 1 \\).
-    A GMM encoding distribution is thus defined as
-    \\( f\_i(y) = \sum\_{k=1}^{K} {w}\_{i}^{(k)} \\, \mathcal{N}(y; {\mu}\_{i}^{(k)}, ({\sigma}\_{i}^{(k)})^2) \\).
+### "Fully factorized" entropy bottleneck
+
+One entropy model is the "fully factorized" *entropy bottleneck*, as introduced by Ballé *et al.* [^ref-balle2018variational].
+Let \\( p\_{{\hat{y}}\_{c,i}} : \mathbb{Z} \to [0, 1] \\) denote the probability mass distribution used to encode the \\( i \\)-th element \\( \hat{y}\_{c,i} \\) from the \\( c \\)-th channel of \\( \boldsymbol{\hat{y}} \\).
+The same encoding distribution \\( p\_{{\hat{y}}\_c} \\) is used for all elements within the \\( c \\)-th channel, i.e., \\( p\_{{\hat{y}}\_{c,i}} = p\_{{\hat{y}}\_c}, \forall i \\).
+This entropy model works best when all such elements \\( \hat{y}\_{c,1}, \hat{y}\_{c,2}, \ldots, \hat{y}\_{c,N} \\) are independently and identically distributed (i.i.d.).
+
+Ballé *et al.* [^ref-balle2018variational] model the encoding distribution as a static non-parametric distribution that is computed as the binned area under a probability density function \\( f\_{c} : \mathbb{R} \to \mathbb{R} \\), with a corresponding cumulative distribution function \\( F\_{c} : \mathbb{R} \to [0, 1] \\).
+Then,
+\\[
+\begin{equation}
+  % \label{eqn:p_y_c_integral}
+  p\_{\boldsymbol{\hat{y}}\_c}(\hat{y}\_{c,i})
+  = \int\_{-\frac{1}{2}}^{\frac{1}{2}} f(\hat{y}\_{c,i} + \tau) \\, d\tau
+  = F\_{c}(\hat{y}\_{c,i} + 1/2) - F\_{c}(\hat{y}\_{c,i} - 1/2).
+\end{equation}
+\\]
+\\( F\_{c} \\) is modelled using a small fully-connected network composed of five linear layers with channels of sizes \\( [1, 3, 3, 3, 3, 1] \\), whose parameters are tuned during training.
+Note that \\( F\_{c} \\) is not conditioned on any other information, and is thus static.
+
+
+
+### Mean-scale hyperprior
+
+<!-- Another popular entropy model is the mean-scale variant of the "hyperprior" model introduced by Ballé *et al.* [^ref-balle2018variational]. -->
+Let \\( f\_i(y) = \mathcal{N}(y; {\mu\_i}, {\sigma\_i}^2) \\) be a Gaussian distribution with mean \\( {\mu\_i} \\) and variance \\( {\sigma\_i}^2 \\).
+Then, like in (1), <!-- {{< cref "eqn:p_y_c_integral" >}}, --> the encoding distribution \\( p\_{\boldsymbol{\hat{y}}\_i} \\) is defined as the binned area under \\( f\_i \\):
+\\[
+\begin{equation}
+  % \label{eqn:p_y_i_integral}
+  p\_{\boldsymbol{\hat{y}}\_i}(\hat{y}\_i)
+  = \int\_{-\frac{1}{2}}^{\frac{1}{2}} f\_i(\hat{y}\_i + \tau) \\, d\tau.
+  % = F\_i(\hat{y}\_i + 1/2) - F\_i(\hat{y}\_i - 1/2).
+\end{equation}
+\\]
+In the mean-scale variant of the "hyperprior" model introduced by Ballé *et al.* [^ref-balle2018variational],
+the parameters \\( {\mu\_i} \\) and \\( {\sigma\_i}^2 \\) are computed by
+\\( [{\mu\_i}, {\sigma\_i}] = (h\_s(\boldsymbol{\hat{z}}))\_i \\).
+Here, the latent representation \\( \boldsymbol{\hat{z}} = \operatorname{Quantize}[h\_a(\boldsymbol{y})] \\) is computed by the analysis transform \\( h\_a \\), and then encoded using an entropy bottleneck and transmitted as *side information*;
+and \\( h\_s \\) is a synthesis transform.
+This architecture is visualized in {{< cref "fig:intro/arch-comparison/hyperprior" >}}.
+Cheng *et al.* [^ref-cheng2020learned] define \\( f\_i \\) as a mixture of \\( K \\) Gaussians --- known as a Gaussian mixture model (GMM) --- with parameters \\( {\mu}\_{i}^{(k)} \\) and \\( {\sigma}\_{i}^{(k)} \\) for each Gaussian, alongside an affine combination of weights \\( {w}\_{i}^{(1)}, \ldots, {w}\_{i}^{(K)} \\) that satisfy the constraint \\( \sum\_k {w}\_{i}^{(k)} = 1 \\).
+A GMM encoding distribution is thus defined as
+\\( f\_i(y) = \sum\_{k=1}^{K} {w}\_{i}^{(k)} \\, \mathcal{N}(y; {\mu}\_{i}^{(k)}, [{\sigma}\_{i}^{(k)}]^2) \\).
+
+Note that *scale* refers to the width \\( \sigma\_i \\) of the Gaussian distribution, not to the fact that the latent \\( \boldsymbol{\hat{y}} \\) is spatially downsampled and then upsampled.
+Ballé *et al.* [^ref-balle2018variational] originally introduced a "scale hyperprior" model, which assumes a fixed mean \\( \mu\_i = 0 \\), though it was later shown that allowing the mean \\( \mu\_i \\) to also vary can improve performance.
+In the CompressAI implementation, the scale hyperprior model constructs the encoding distributions \\( p\_{\boldsymbol{\hat{y}}\_i} \\) from the parameters \\( \mu\_i \\) and \\( \sigma\_i \\) using a [*Gaussian conditional*](https://interdigitalinc.github.io/CompressAI/_modules/compressai/entropy_models/entropy_models.html#GaussianConditional) component.
+The Gaussian conditional is not an entropy model on its own, by our definition.
+(This article defines an entropy model as a function that computes the encoding distributions \\( p\_{\boldsymbol{\hat{y}}} \\) for a given latent tensor \\( \boldsymbol{\hat{y}} \\).)
+
+
+
 
 
 
