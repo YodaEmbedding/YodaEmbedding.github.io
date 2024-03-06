@@ -4,13 +4,13 @@
 -->
 <!-- TODO: nested figure auto levels?! (and multiple levels of figure counters?!) meh, too difficult... for now, just manually specify index -->
 <!-- Style should be moved into CSS... Might want to fork our own theme or something. And use tailwind for dark mode support or something. -->
+{{- .Page.Scratch.Add "figureCounter" 1 -}}
 {{- if (or (eq (.Get "mode") "container") (eq (.Get "mode") "")) -}}
 <figure style="display: block; background-color: #ffffff; padding: 1.0em; margin-top: 2.0em; margin-bottom: 2.0em; border: 1px solid #e8e8e8; border-radius: 0.5em; box-shadow: 0 0 0.5em #e8e8e8; text-align: center; ">
 {{- else if (eq (.Get "mode") "subfigure") -}}
 <figure style="display: inline-block; margin: 0.5em; text-align: center; ">
 {{- end -}}
 {{- if (eq (.Get "mode") "container") -}}
-  {{- .Page.Scratch.Add "figureCounter" 1 -}}
   {{- .Page.Scratch.SetInMap "labels"
     (.Get "label") (.Page.Scratch.Get "figureCounter")
   -}}
@@ -44,8 +44,8 @@
     {{ .Inner | markdownify -}} <!-- caption -->
   </figcaption>
   <div style="margin-bottom: 1.0em;"></div>
+  {{- .Page.Scratch.Add "figureCounter" -1 -}}
 {{- else -}}
-  {{- .Page.Scratch.Add "figureCounter" 1 -}}
   {{- .Page.Scratch.SetInMap "labels"
     (.Get "label") (.Page.Scratch.Get "figureCounter")
   -}}
