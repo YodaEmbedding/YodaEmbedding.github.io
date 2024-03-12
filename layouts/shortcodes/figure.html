@@ -38,7 +38,8 @@
     <div style="margin-bottom: 1.0em;"></div>
   {{- end -}}
   -->
-  <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" />
+  <!-- <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" /> -->
+  {{- (printf "<img src=\"%s%s\" %s />" (.Site.BaseURL) (.Get "src") (.Get "imgattrs")) | safeHTML -}}
   <figcaption>
     <b>({{ $subfigureCounterText }})</b>
     {{ .Get "caption" | markdownify -}}
@@ -50,7 +51,8 @@
   {{- .Page.Scratch.SetInMap "labels"
     (.Get "label") (.Page.Scratch.Get "figureCounter")
   -}}
-  <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" />
+  <!-- <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" /> -->
+  {{- (printf "<img src=\"%s%s\" %s />" (.Site.BaseURL) (.Get "src") (.Get "imgattrs")) | safeHTML -}}
   <figcaption>
     <b>Figure {{ .Page.Scratch.Get "figureCounter" }}.</b>
     {{ .Get "caption" | markdownify -}}
