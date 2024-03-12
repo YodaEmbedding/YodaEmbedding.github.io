@@ -117,6 +117,7 @@ For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (R
   src="assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png"
   label="fig:intro/rd-curves"
   caption="Rate-Distortion (RD) curves for various image compression codecs evaluated on the Kodak test dataset."
+  alt="Rate-Distortion (RD) curves of PSNR vs bits per pixel (bpp) for various image compression codecs evaluated on the Kodak test dataset. In order from best to worst, the codecs are elic2022, VTM, cheng2020-checkerboard-6M, cheng2020-anchor, mbt2018, AV1, mbt2018-mean, BPG, HM, bmshj2018-hyperprior, bmshj2018-factorized, WebP, JPEG2000, and JPEG."
 >}}
 {{< /figure >}}
 
@@ -162,12 +163,14 @@ A simple compression architecture used by both traditional and learned compressi
   src="assets/img/learned-compression/arch-overview-factorized.png"
   label="fig:intro/arch-comparison/factorized"
   caption="Simple compression architecture."
+  alt="Simple compression architecture. x goes into the transform g_a, resulting in y. y is quantized to y_hat. y_hat is entropy coded to produce a bitstream, which has a rate cost R_y. y_hat is fed into g_s to produce the reconstruction x_hat."
 >}}
 {{< /figure >}}
 {{< figure mode="subfigure"
   src="assets/img/learned-compression/arch-overview-hyperprior.png"
   label="fig:intro/arch-comparison/hyperprior"
   caption="Hyperprior compression architecture."
+  alt="Hyperprior compression architecture. Like the simple compression architecture, but with an additional branch which takes y, compresses it using a 'simple compression architecture', which outputs means and scales. These means and scales are used to construct distributions that are used to encode y."
 >}}
 {{< /figure >}}
 {{< /figure >}}
@@ -296,6 +299,7 @@ Afterward, the exact same encoding distribution is used by the decoder to recons
   src="assets/img/learned-compression/encoding-distribution.png"
   label="fig:intro/encoding-distribution"
   caption="Visualization of an encoding distribution used for compressing a single element \\( \hat{y}\_i \\)."
+  alt="Visualization of an encoding distribution used for compressing a single element y_hat_i. The height of the bin p_y_hat_i(y_hat_i) is highlighted since the rate is equal to the negative log of this bin."
 >}}
 {{< /figure >}}
 
@@ -322,6 +326,7 @@ Furthermore, in the case of the scale hyperprior used by Ballé *et al.*, the en
   label="fig:intro/encoding-distributions/factorized"
   mode="subfigure"
   caption="fully factorized"
+  alt="Fully factorized entropy model. The encoding distributions within a given channel are all the same since the elements within a channel are assumed to be i.i.d. w.r.t. each other."
 >}}
 {{< /figure >}}
 
@@ -330,6 +335,7 @@ Furthermore, in the case of the scale hyperprior used by Ballé *et al.*, the en
   label="fig:intro/encoding-distributions/conditional"
   mode="subfigure"
   caption="conditional"
+  alt="Conditional entropy model. The encoding distributions for each element are uniquely determined, often by conditioning on side information or on previously decoded elements."
 >}}
 {{< /figure >}}
 

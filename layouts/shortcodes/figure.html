@@ -41,7 +41,7 @@
   {{- end -}}
   -->
   <!-- <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" /> -->
-  {{- (printf "<img class=\"%s\" src=\"%s%s\" %s />" ("subfigure p-2") (.Site.BaseURL) (.Get "src") (.Get "imgattrs")) | safeHTML -}}
+  {{- (printf "<img class=\"%s\" src=\"%s%s\" alt=\"%s\" %s />" ("subfigure p-2") (.Site.BaseURL) (.Get "src") (.Get "alt") (.Get "imgattrs")) | safeHTML -}}
   <figcaption>
     <b>({{ $subfigureCounterText }})</b>
     {{ .Get "caption" | markdownify -}}
@@ -54,7 +54,7 @@
     (.Get "label") (.Page.Scratch.Get "figureCounter")
   -}}
   <!-- <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" /> -->
-  {{- (printf "<img class=\"%s\" src=\"%s%s\" %s />" ("mainfigure p-2") (.Site.BaseURL) (.Get "src") (.Get "imgattrs")) | safeHTML -}}
+  {{- (printf "<img class=\"%s\" src=\"%s%s\" alt=\"%s\" %s />" ("mainfigure p-2") (.Site.BaseURL) (.Get "src") (.Get "alt") (.Get "imgattrs")) | safeHTML -}}
   <figcaption>
     <b>Figure {{ .Page.Scratch.Get "figureCounter" }}.</b>
     {{ .Get "caption" | markdownify -}}
