@@ -1,6 +1,6 @@
 +++
 date = "2024-01-01T00:00:00-08:00"
-title = "Learned image compression: Introduction"
+title = "Learned Image Compression: Introduction"
 slug = "learned-image-compression"
 categories = [ "Compression" ]
 tags = [ "Compression", "Deep learning" ]
@@ -13,7 +13,7 @@ katex = true
 
 
 Learned image compression (LIC) applies deep learning models to the task of image compression.
-It is also sometimes known as deep image compression or neural image compression.
+It is also known as deep image compression or neural image compression.
 This article introduces learned image compression, and in the future, will be updated to provide a brief survey of the current landscape and state-of-the-art (SOTA).
 
 
@@ -182,7 +182,7 @@ The table below lists some common choices for the components in this architectur
   label="tbl:intro/codec_components"
   caption="Components of a compression architecture for various image compression codecs."
 >}}
-| Model | Quantizer | Entropy coding | Analysis transform (\\( g\_a \\)) | Synthesis transform (\\( g\_s \\)) |
+| Model | Quantizer (\\( \text{Q} \\)) | Entropy coding | Analysis transform (\\( g\_a \\)) | Synthesis transform (\\( g\_s \\)) |
 |:--:|:--:|:--:|:--:|:--:|
 | JPEG | non-uniform | zigzag + RLE, Huffman | \\( 8 \times 8 \\) block DCT | \\( 8 \times 8 \\) block DCT<sup>-1</sup> |
 | JPEG 2000 | uniform dead-zone or TCQ | arithmetic | multilevel DWT | multilevel DWT<sup>-1</sup> |
@@ -238,7 +238,7 @@ Each of the components of the standard compression architecture are described in
     In the case of learned compression, the analysis transform is often a nonlinear transform comprised of multiple deep layers and many parameters.
     For instance, the bmshj2018-factorized model's \\( g\_a \\) transform contains 4 downsampling convolutional layers interleaved with GDN [^ref-balle2016gdn] nonlinear activations, totaling 1.5M to 3.5M parameters.
 
--   **Quantization**:
+-   **Quantization** (\\( \text{Q} \\)):
     The analysis transform outputs coefficients contained in a rather large (potentially even continuous) support.
     However, much of this precision is not necessary for a reasonably accurate reconstruction.
     Thus, we drop most of this unneeded information by binning the transformed coefficients into a much smaller discretized support.
