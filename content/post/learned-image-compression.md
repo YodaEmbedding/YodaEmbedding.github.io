@@ -116,8 +116,8 @@ For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (R
 {{< figure
   src="assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png"
   label="fig:intro/rd-curves"
+  caption="Rate-Distortion (RD) curves for various image compression codecs evaluated on the Kodak test dataset."
 >}}
-Rate-Distortion (RD) curves for various image compression codecs evaluated on the Kodak test dataset.
 {{< /figure >}}
 
 <!--
@@ -161,14 +161,14 @@ A simple compression architecture used by both traditional and learned compressi
 {{< figure mode="subfigure"
   src="assets/img/learned-compression/arch-overview-factorized.png"
   label="fig:intro/arch-comparison/factorized"
+  caption="Simple compression architecture."
 >}}
-Simple compression architecture.
 {{< /figure >}}
 {{< figure mode="subfigure"
   src="assets/img/learned-compression/arch-overview-hyperprior.png"
   label="fig:intro/arch-comparison/hyperprior"
+  caption="Hyperprior compression architecture."
 >}}
-Hyperprior compression architecture.
 {{< /figure >}}
 {{< /figure >}}
 
@@ -295,8 +295,8 @@ Afterward, the exact same encoding distribution is used by the decoder to recons
 {{< figure
   src="assets/img/learned-compression/encoding-distribution.png"
   label="fig:intro/encoding-distribution"
+  caption="Visualization of an encoding distribution used for compressing a single element \\( \hat{y}\_i \\)."
 >}}
-Visualization of an encoding distribution used for compressing a single element \\( \hat{y}\_i \\).
 {{< /figure >}}
 
 
@@ -321,16 +321,16 @@ Furthermore, in the case of the scale hyperprior used by Ballé *et al.*, the en
   src="assets/img/learned-compression/encoding-distributions-factorized.png"
   label="fig:intro/encoding-distributions/factorized"
   mode="subfigure"
+  caption="fully factorized"
 >}}
-fully factorized
 {{< /figure >}}
 
 {{< figure
   src="assets/img/learned-compression/encoding-distributions-conditional.png"
   label="fig:intro/encoding-distributions/conditional"
   mode="subfigure"
+  caption="conditional"
 >}}
-conditional
 {{< /figure >}}
 
 {{< /figure >}}

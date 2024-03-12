@@ -41,7 +41,8 @@
   <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" />
   <figcaption>
     <b>({{ $subfigureCounterText }})</b>
-    {{ .Inner | markdownify -}} <!-- caption -->
+    {{ .Get "caption" | markdownify -}}
+    <!-- {{ .Inner | markdownify -}}   caption -->
   </figcaption>
   <div style="margin-bottom: 1.0em;"></div>
   {{- .Page.Scratch.Add "figureCounter" -1 -}}
@@ -52,7 +53,8 @@
   <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" />
   <figcaption>
     <b>Figure {{ .Page.Scratch.Get "figureCounter" }}.</b>
-    {{ .Inner | markdownify -}} <!-- caption -->
+    {{ .Get "caption" | markdownify -}}
+    <!-- {{ .Inner | markdownify -}}   caption -->
   </figcaption>
 {{- end -}}
 </figure>
