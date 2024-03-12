@@ -5,11 +5,13 @@
 <!-- TODO: nested figure auto levels?! (and multiple levels of figure counters?!) meh, too difficult... for now, just manually specify index -->
 <!-- Style should be moved into CSS... Might want to fork our own theme or something. And use tailwind for dark mode support or something. -->
 {{- .Page.Scratch.Add "figureCounter" 1 -}}
+{{- $figureClass := "" -}}
 {{- if (or (eq (.Get "mode") "container") (eq (.Get "mode") "")) -}}
-<figure class="block bg-white dark:bg-neutral-700 p-4 my-8 rounded-md shadow-md shadow-neutral-300 dark:shadow-neutral-800 text-center">
+  {{- $figureClass = "block bg-white dark:bg-neutral-700 p-4 my-8 rounded-md shadow-md shadow-neutral-300 dark:shadow-neutral-800 text-center" -}}
 {{- else if (eq (.Get "mode") "subfigure") -}}
-<figure class="inline-block m-2 text-center">
+  {{- $figureClass = "inline-block m-2 text-center" -}}
 {{- end -}}
+{{- (printf "<figure class=\"%s\" %s>" ($figureClass) (.Get "figureattrs")) | safeHTML -}}
 {{- if (eq (.Get "mode") "container") -}}
   {{- .Page.Scratch.SetInMap "labels"
     (.Get "label") (.Page.Scratch.Get "figureCounter")
