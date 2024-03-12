@@ -8,7 +8,8 @@ tags = [ "Compression", "Deep learning" ]
 # readingtime = true
 # aliases = ["2024/01/some-previous-name/"]
 # draft = true
-katex = true
+# katex = true
+math = "mathjax"
 +++
 
 
@@ -351,7 +352,7 @@ Ballé *et al.* [^ref-balle2018variational] model the encoding distribution as a
 Then,
 \\[
 \begin{equation}
-  % \label{eqn:p_y_c_integral}
+  \label{eqn:p_y_c_integral}
   p\_{\boldsymbol{\hat{y}}\_c}(\hat{y}\_{c,i})
   = \int\_{-\frac{1}{2}}^{\frac{1}{2}} f(\hat{y}\_{c,i} + \tau) \\, d\tau
   = F\_{c}(\hat{y}\_{c,i} + 1/2) - F\_{c}(\hat{y}\_{c,i} - 1/2).
@@ -366,10 +367,10 @@ Note that \\( F\_{c} \\) is not conditioned on any other information, and is thu
 
 <!-- Another popular entropy model is the mean-scale variant of the "hyperprior" model introduced by Ballé *et al.* [^ref-balle2018variational]. -->
 Let \\( f\_i(y) = \mathcal{N}(y; {\mu\_i}, {\sigma\_i}^2) \\) be a Gaussian distribution with mean \\( {\mu\_i} \\) and variance \\( {\sigma\_i}^2 \\).
-Then, like in (1), <!-- {{< cref "eqn:p_y_c_integral" >}}, --> the encoding distribution \\( p\_{\boldsymbol{\hat{y}}\_i} \\) is defined as the binned area under \\( f\_i \\):
+Then, like in \\( \eqref{eqn:p_y_c_integral} \\), the encoding distribution \\( p\_{\boldsymbol{\hat{y}}\_i} \\) is defined as the binned area under \\( f\_i \\):
 \\[
 \begin{equation}
-  % \label{eqn:p_y_i_integral}
+  \label{eqn:p_y_i_integral}
   p\_{\boldsymbol{\hat{y}}\_i}(\hat{y}\_i)
   = \int\_{-\frac{1}{2}}^{\frac{1}{2}} f\_i(\hat{y}\_i + \tau) \\, d\tau.
   % = F\_i(\hat{y}\_i + 1/2) - F\_i(\hat{y}\_i - 1/2).
