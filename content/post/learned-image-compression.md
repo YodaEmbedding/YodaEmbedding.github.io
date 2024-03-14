@@ -227,7 +227,7 @@ The table below lists some common choices for the components in this architectur
     \bottomrule
  -->
 
-In this architecture, the input \\( \boldsymbol{x} \\) goes through a transform \\( g\_a \\) to generate an intermediate representation \\( y \\), which is quantized to \\( \boldsymbol{\hat{y}} \\).
+In this simple architecture, the input \\( \boldsymbol{x} \\) goes through a transform \\( g\_a \\) to generate an intermediate representation \\( \boldsymbol{y} \\), which is quantized to \\( \boldsymbol{\hat{y}} \\).
 Then, \\( \boldsymbol{\hat{y}} \\) is losslessly entropy coded to generate a transmittable bitstream from which \\( \boldsymbol{\hat{y}} \\) can be perfectly reconstructed at the decoder side.
 Finally, \\( \boldsymbol{\hat{y}} \\) is fed into a synthesis transform \\( g\_s \\) which reconstructs an approximation of \\( \boldsymbol{x} \\), which is labeled \\( \boldsymbol{\hat{x}} \\).
 
