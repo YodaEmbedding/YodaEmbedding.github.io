@@ -15,7 +15,8 @@ math = "mathjax"
 
 Learned image compression (LIC) applies deep learning models to the task of image compression.
 It is also known as neural image compression (NIC) or deep image compression.
-This article introduces learned image compression, and in the future, will be updated to provide a brief survey of the current landscape and state-of-the-art (SOTA).
+This article introduces learned image compression, and provides a fairly brief survey of the current landscape and state-of-the-art (SOTA) context modelling approaches.
+<!-- TODO: Also survey other techniques; e.g., GAN, transformers, etc -->
 
 
 
