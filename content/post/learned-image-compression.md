@@ -472,13 +472,13 @@ Floating table of contents.
 
 [^ref-he2022elic]: D. He, Z. Yang, W. Peng, R. Ma, H. Qin, and Y. Wang, “ELIC: Efficient learned image compression with unevenly grouped space-channel contextual adaptive coding,” in *Proc. IEEE/CVF CVPR*, 2022, pp. 5718–5727. Available: <https://arxiv.org/abs/2203.10886>
 
-[^ref-toderici2017rnn]: G. Toderici *et al.*, “Full resolution image compression with recurrent neural networks,” in *Proc. IEEE/CVF CVPR*, IEEE, 2017, pp. 5306–5314. doi: [10.1109/cvpr.2017.577](https://doi.org/10.1109/cvpr.2017.577).
+[^ref-toderici2017rnn]: G. Toderici *et al.*, “Full resolution image compression with recurrent neural networks,” in *Proc. IEEE/CVF CVPR*, IEEE, 2017, pp. 5306–5314. Available: <https://arxiv.org/abs/1608.05148>
 
 [^ref-mentzer2020highfidelity]: F. Mentzer, G. D. Toderici, M. Tschannen, and E. Agustsson, “High-fidelity generative image compression,” *Advances in Neural Information Processing Systems*, vol. 33, pp. 11913–11924, 2020, Available: <https://proceedings.neurips.cc/paper_files/paper/2020/file/8a50bae297807da9e97722a0b3fd8f27-Paper.pdf>
 
 [^ref-yan2019deep]: W. Yan, Y. shao, S. Liu, T. H. Li, Z. Li, and G. Li, “Deep AutoEncoder-based lossy geometry compression for point clouds.” 2019. Available: <https://arxiv.org/abs/1905.03691>
 
-[^ref-he2022density]: Y. He, X. Ren, D. Tang, Y. Zhang, X. Xue, and Y. Fu, “Density-preserving deep point cloud compression,” in *Proc. IEEE/CVF CVPR*, 2022, pp. 2323–2332. doi: [10.1109/CVPR52688.2022.00237](https://doi.org/10.1109/CVPR52688.2022.00237).
+[^ref-he2022density]: Y. He, X. Ren, D. Tang, Y. Zhang, X. Xue, and Y. Fu, “Density-preserving deep point cloud compression,” in *Proc. IEEE/CVF CVPR*, 2022, pp. 2323–2332. Available: <https://arxiv.org/abs/2204.12684>
 
 [^ref-pang2022graspnet]: J. Pang, M. A. Lodhi, and D. Tian, “GRASP-Net: Geometric residual analysis and synthesis for point cloud compression,” in *Proc. 1st int. Workshop on advances in point cloud compression, processing and analysis*, 2022. Available: <https://arxiv.org/abs/2209.04401>
 
@@ -488,25 +488,25 @@ Floating table of contents.
 
 [^ref-rippel2019learned]: O. Rippel, S. Nair, C. Lew, S. Branson, A. G. Anderson, and L. Bourdev, “Learned video compression,” in *Proc. IEEE/CVF ICCV*, 2019, pp. 3454–3463. Available: <https://arxiv.org/abs/1811.06981>
 
-[^ref-agustsson2020scalespaceflow]: E. Agustsson, D. Minnen, N. Johnston, J. Ballé, S. J. Hwang, and G. Toderici, “Scale-Space Flow for end-to-end optimized video compression,” in *Proc. IEEE/CVF CVPR*, 2020, pp. 8500–8509. doi: [10.1109/CVPR42600.2020.00853](https://doi.org/10.1109/CVPR42600.2020.00853).
+[^ref-agustsson2020scalespaceflow]: E. Agustsson, D. Minnen, N. Johnston, J. Ballé, S. J. Hwang, and G. Toderici, “Scale-Space Flow for end-to-end optimized video compression,” in *Proc. IEEE/CVF CVPR*, 2020, pp. 8500–8509. Available: <https://openaccess.thecvf.com/content_CVPR_2020/papers/Agustsson_Scale-Space_Flow_for_End-to-End_Optimized_Video_Compression_CVPR_2020_paper.pdf>
 
-[^ref-hu2021fvc]: Z. Hu, G. Lu, and D. Xu, “FVC: A new framework towards deep video compression in feature space,” in *Proc. IEEE/CVF CVPR*, 2021, pp. 1502–1511. doi: [10.1109/cvpr46437.2021.00155](https://doi.org/10.1109/cvpr46437.2021.00155).
+[^ref-hu2021fvc]: Z. Hu, G. Lu, and D. Xu, “FVC: A new framework towards deep video compression in feature space,” in *Proc. IEEE/CVF CVPR*, 2021, pp. 1502–1511. Available: <https://arxiv.org/abs/2105.09600>
 
 [^ref-ho2022canf]: Y.-H. Ho, C.-P. Chang, P.-Y. Chen, A. Gnutti, and W.-H. Peng, “CANF-VC: Conditional augmented normalizing flows for video compression,” in *Proc. ECCV*, Springer, 2022, pp. 207–223. Available: <https://arxiv.org/abs/2207.05315>
 
-[^ref-galpin2023entropy]: F. Galpin, M. Balcilar, F. Lefebvre, F. Racapé, and P. Hellier, “Entropy coding improvement for low-complexity compressive auto-encoders,” in *Proc. IEEE DCC*, 2023, pp. 338–338. doi: [10.1109/DCC55655.2023.00080](https://doi.org/10.1109/DCC55655.2023.00080).
+[^ref-galpin2023entropy]: F. Galpin, M. Balcilar, F. Lefebvre, F. Racapé, and P. Hellier, “Entropy coding improvement for low-complexity compressive auto-encoders,” in *Proc. IEEE DCC*, 2023, pp. 338–338. Available: <https://arxiv.org/abs/2303.05962>
 
 [^ref-ladune2023coolchic]: T. Ladune, P. Philippe, F. Henry, G. Clare, and T. Leguay, “COOL-CHIC: Coordinate-based low complexity hierarchical image codec,” in *Proc. IEEE/CVF ICCV*, 2023, pp. 13515–13522. Available: <https://arxiv.org/abs/2212.05458>
 
 [^ref-leguay2023lowcomplexity]: T. Leguay, T. Ladune, P. Philippe, G. Clare, and F. Henry, “Low-complexity overfitted neural image codec.” 2023. Available: <https://arxiv.org/abs/2307.12706>
 
-[^ref-kamisli2023lowcomplexity]: F. Kamisli, “Learned lossless image compression through interpolation with low complexity,” *IEEE Trans. Circuits Syst. Video Technol.*, pp. 1–1, 2023, doi: [10.1109/TCSVT.2023.3273578](https://doi.org/10.1109/TCSVT.2023.3273578).
+[^ref-kamisli2023lowcomplexity]: F. Kamisli, “Learned lossless image compression through interpolation with low complexity,” *IEEE Trans. Circuits Syst. Video Technol.*, pp. 1–1, 2023, Available: <https://arxiv.org/abs/2212.13243>
 
-[^ref-duan2020vcm]: L.-Y. Duan, J. Liu, W. Yang, T. Huang, and W. Gao, “Video Coding for Machines: A paradigm of collaborative compression and intelligent analytics,” *IEEE Trans. Image Process.*, vol. 29, pp. 8680–8695, 2020, Available: <https://arxiv.org/abs/2001.03569>
+[^ref-duan2020vcm]: L.-Y. Duan, J. Liu, W. Yang, T. Huang, and W. Gao, “<span class="nocase">Video Coding for Machines
 
-[^ref-choi2021latentspace]: H. Choi and I. V. Bajić, “Latent-space scalability for multi-task collaborative intelligence,” in *Proc. IEEE ICIP*, 2021, pp. 3562–3566. doi: [10.1109/ICIP42928.2021.9506712](https://doi.org/10.1109/ICIP42928.2021.9506712).
+[^ref-choi2021latentspace]: H. Choi and I. V. Bajić, “Latent-space scalability for multi-task collaborative intelligence,” in *Proc. IEEE ICIP*, 2021, pp. 3562–3566. Available: <https://arxiv.org/abs/2105.10089>
 
-[^ref-choi2022sichm]: H. Choi and I. V. Bajić, “Scalable image coding for humans and machines,” *IEEE Trans. Image Process.*, vol. 31, pp. 2739–2754, Mar. 2022, doi: [10.1109/tip.2022.3160602](https://doi.org/10.1109/tip.2022.3160602).
+[^ref-choi2022sichm]: H. Choi and I. V. Bajić, “Scalable image coding for humans and machines,” *IEEE Trans. Image Process.*, vol. 31, pp. 2739–2754, Mar. 2022, Available: <https://arxiv.org/abs/2107.08373>
 
 [^ref-balle2016gdn]: J. Ballé, V. Laparra, and E. P. Simoncelli, “Density modeling of images using a generalized normalization transformation,” in *Proc. ICLR*, 2016. Available: <https://arxiv.org/abs/1511.06281>
 
