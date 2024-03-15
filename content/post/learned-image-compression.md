@@ -152,9 +152,6 @@ Extending this technique, scalable multi-task codecs such as [^ref-choi2021laten
 
 ## Compression architecture overview
 
-A simple compression architecture used by both traditional and learned compression methods alike is shown in {{< cref "fig:intro/arch-comparison/factorized" >}}.
-
-
 {{< figure label="fig:intro/arch-comparison"
   mode="container"
   caption="High-level comparison of codec architectures."
@@ -176,8 +173,12 @@ A simple compression architecture used by both traditional and learned compressi
 {{< /figure >}}
 
 
-This architecture consists of several components.
+A simple compression architecture used by both traditional and learned compression methods alike is shown in {{< cref "fig:intro/arch-comparison/factorized" >}}.
+In this architecture, the input \\( \boldsymbol{x} \\) goes through a transform \\( g\_a \\) to generate an intermediate representation \\( \boldsymbol{y} \\), which is [quantized][quantization] to \\( \boldsymbol{\hat{y}} \\).
+Then, \\( \boldsymbol{\hat{y}} \\) is losslessly entropy coded to generate a transmittable bitstream from which \\( \boldsymbol{\hat{y}} \\) can be perfectly reconstructed at the decoder side.
+Finally, \\( \boldsymbol{\hat{y}} \\) is fed into a synthesis transform \\( g\_s \\) which reconstructs an approximation of \\( \boldsymbol{x} \\), which is labeled \\( \boldsymbol{\hat{x}} \\).
 The table below lists some common choices for the components in this architecture.
+<!-- This architecture consists of several components. -->
 
 <!-- {{< cref "tbl:intro/codec_components" >}} -->
 
@@ -227,43 +228,48 @@ The table below lists some common choices for the components in this architectur
     \bottomrule
  -->
 
-In this simple architecture, the input \\( \boldsymbol{x} \\) goes through a transform \\( g\_a \\) to generate an intermediate representation \\( \boldsymbol{y} \\), which is quantized to \\( \boldsymbol{\hat{y}} \\).
-Then, \\( \boldsymbol{\hat{y}} \\) is losslessly entropy coded to generate a transmittable bitstream from which \\( \boldsymbol{\hat{y}} \\) can be perfectly reconstructed at the decoder side.
-Finally, \\( \boldsymbol{\hat{y}} \\) is fed into a synthesis transform \\( g\_s \\) which reconstructs an approximation of \\( \boldsymbol{x} \\), which is labeled \\( \boldsymbol{\hat{x}} \\).
 
 Each of the components of the standard compression architecture are described in further detail below:
 
 -   **Analysis transform** (\\( g\_a \\)):
     The input first is transformed by the \\( g\_a \\) transform into a transformed representation \\( \boldsymbol{y} \\).
-    This transform often outputs a signal that contains less redundancy than within the input signal, and has its energy compacted into a smaller dimension.
-    For instance, the JPEG codec transforms \\( 8 \times 8 \\) blocks from the input image using a discrete cosine transform (DCT).
-    This concentrates most of the signal energy into the low-frequency components that are often the dominating frequency component within natural images.
-    In the case of learned compression, the analysis transform is often a nonlinear transform comprised of multiple deep layers and many parameters.
+    This transform often outputs a signal that contains less redundancy than within the input signal, and has its "energy" compacted into a smaller dimension.
+    For instance, the JPEG codec splits the input image into \\( 8 \times 8 \\) blocks, then applies a discrete cosine transform (DCT) to each block.
+    This [concentrates][DCT_interactive] most of the signal energy into the low-frequency components that are often the dominating frequency component within natural images.
+    Learned compression models typically use multiple deep layers and many trainable parameters to represent the analysis transform.
     For instance, the bmshj2018-factorized model's \\( g\_a \\) transform contains 4 downsampling convolutional layers interleaved with GDN [^ref-balle2016gdn] nonlinear activations, totaling 1.5M to 3.5M parameters.
 
 -   **Quantization** (\\( \text{Q} \\)):
+    The analysis transform above outputs real numbers, i.e., \\( y_i \in \mathbb{R} \\).
+    However, it is not necessary to store these values with exact precision to achieve a reasonably accurate reconstruction.
+    Thus, we drop most of this unneeded information (e.g., \\( 6.283185 \to 6 \\)) by [binning][histogram] the values into a small discrete set of bins.
+    Ballé *et al.* [^ref-balle2018variational] use a [uniform quantizer] (i.e., "rounding") during inference.
+    Since this operation is non-differentiable, the quantizer is replaced with a differentiable proxy during training.
+    For instance, Ballé *et al.* [^ref-balle2018variational] simulate quantization error using additive unit-width uniform noise, i.e., \\( \hat{y}_i = y_i + \epsilon \\) where \\( \epsilon \sim \mathcal{U}[-\frac{1}{2}, \frac{1}{2}] \\).
+    More recently, the straight-through estimator (STE) [^ref-bengio2013estimating] has gained some popularity [^ref-he2022elic], where the gradients are allowed to pass through without modification, but the actual values are quantized using the same method as during inference.
+    <!--
     The analysis transform outputs coefficients contained in a rather large (potentially even continuous) support.
     However, much of this precision is not necessary for a reasonably accurate reconstruction.
     Thus, we drop most of this unneeded information by binning the transformed coefficients into a much smaller discretized support.
     There are many choices for the reconstructed quantization bin values and boundaries.
     Popular quantizers include the uniform, dead-zone, Lloyd-Max, and Trellis-coded quantizers.
-    Ballé *et al.* [^ref-balle2018variational] use a uniform quantizer during inference, which is replaced with additive unit-width uniform noise during training.
-    More recently, the STE quantizer has also been used during training.
+    -->
 
 -   **Entropy coding**:
     The resulting \\( \boldsymbol{\hat{y}} \\) is losslessly compressed using an entropy coding method.
     The entropy coder is targeted to match a specific encoding distribution.
     Whenever the encoding distribution correctly predicts an encoded symbol with high probability, the relative bit cost for encoding that symbol is reduced.
-    Thus, some entropy models are context-adaptive, and change the encoding distribution on-the-fly in order to accurately probabilistically predict the next encoded symbol value.
-    Huffman coding is used in JPEG, though it has trouble replicating a given target encoding probability distribution and also at adapting to dynamically changing encoding distributions.
-    Thus, more recent codecs prefer to use arithmetic coders, which can much better approximate rapidly changing target encoding distributions.
+    Thus, some entropy models are context-adaptive, and change the encoding distribution on-the-fly in order to more accurately predict the next encoded symbol value.
+    Recent codecs use [arithmetic coding][arithmetic coding], which is particularly suited for modeling rapidly changing target encoding distributions.
     The CompressAI [^ref-begaint2020compressai] implementation uses rANS [^ref-duda2013asymmetric] [^ref-giesen2014ryg_rans], a popular recent innovation that is quite fast under certain conditions.
+    <!-- Huffman coding is used in JPEG, though it has trouble replicating a given target encoding probability distribution and also at adapting to dynamically changing encoding distributions. -->
 
 -   **Synthesis transform** (\\( g\_s \\)):
     Finally, the reconstructed quantized \\( \boldsymbol{\hat{y}} \\) is fed into a synthesis transform \\( g\_s \\), which produces \\( \boldsymbol{\hat{x}} \\).
     In JPEG, this is simply the inverse DCT.
-    Similar to the analysis transform, in learned compression, the synthesis transform consists of several layers and many parameters.
-    For instance, the bmshj2018-factorized model's \\( g\_s \\) transform contains 4 upsampling transposed convolutional layers interleaved with IGDN nonlinear activations, totaling 1.5M to 3.5M parameters.
+    In learned compression, the synthesis transform consists of several deep layers and many trainable parameters.
+    For instance, the bmshj2018-factorized model's \\( g\_s \\) transform contains 4 upsampling [transposed convolutional layers][transposed convolution] interleaved with IGDN nonlinear activations, totaling 1.5M to 3.5M parameters.
+    <!-- , similar to the analysis transform -->
 
 The length of the bitstream is known as the rate cost \\( R\_{\boldsymbol{\hat{y}}} \\), which we seek to minimize.
 We also seek to minimize the distortion \\( D(\boldsymbol{x}, \boldsymbol{\hat{x}}) \\), which is typically the mean squared error (MSE) between \\( \boldsymbol{x} \\) and \\( \boldsymbol{\hat{x}} \\).
@@ -460,6 +466,14 @@ Floating table of contents.
  -->
 
 
+[arithmetic coding]: https://en.wikipedia.org/wiki/Arithmetic_coding
+[DCT_interactive]: https://parametric.press/issue-01/unraveling-the-jpeg/#:~:text=2.%20Discrete%20Cosine%20Transform%20%26%20Quantization
+[energy]: https://en.wikipedia.org/wiki/Energy_(signal_processing)
+[histogram]: https://en.wikipedia.org/wiki/Histogram
+[quantization]: https://en.wikipedia.org/wiki/Quantization_(signal_processing)
+[transposed convolution]: https://towardsdatascience.com/what-is-transposed-convolutional-layer-40e5e6e31c11#:~:text=Transposed%20Convolutional%20Layer%3A
+[uniform quantizer]: https://en.wikipedia.org/wiki/Quantization_(signal_processing)#Example
+
 
 <div id="refs"></div>
 
@@ -508,6 +522,8 @@ Floating table of contents.
 [^ref-choi2022sichm]: H. Choi and I. V. Bajić, “Scalable image coding for humans and machines,” *IEEE Trans. Image Process.*, vol. 31, pp. 2739–2754, Mar. 2022, Available: <https://arxiv.org/abs/2107.08373>
 
 [^ref-balle2016gdn]: J. Ballé, V. Laparra, and E. P. Simoncelli, “Density modeling of images using a generalized normalization transformation,” in *Proc. ICLR*, 2016. Available: <https://arxiv.org/abs/1511.06281>
+
+[^ref-bengio2013estimating]: Y. Bengio, N. Léonard, and A. Courville, “Estimating or propagating gradients through stochastic neurons for conditional computation.” 2013. Available: <https://arxiv.org/abs/1308.3432>
 
 [^ref-begaint2020compressai]: J. Bégaint, F. Racapé, S. Feltman, and A. Pushparaja, “CompressAI: A PyTorch library and evaluation platform for end-to-end compression research.” 2020. Available: <https://arxiv.org/abs/2011.03029>
 
