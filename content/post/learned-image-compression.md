@@ -50,8 +50,8 @@ For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (R
 {{< figure
   src="assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png"
   label="fig:intro/rd-curves"
-  caption="Rate-Distortion (RD) curves for various image compression codecs evaluated on the Kodak test dataset."
-  alt="Rate-Distortion (RD) curves of PSNR vs bits per pixel (bpp) for various image compression codecs evaluated on the Kodak test dataset. In order from best to worst, the codecs are elic2022, VTM, cheng2020-anchor, cheng2020-checkerboard-6M, mbt2018, AV1, mbt2018-mean, BPG, HM, bmshj2018-hyperprior, bmshj2018-factorized, WebP, JPEG2000, and JPEG."
+  caption="Rate-Distortion (RD) curves for various image compression codecs evaluated on the <a href=\"https://r0k.us/graphics/kodak/\">Kodak test dataset</a>."
+  alt="Rate-Distortion (RD) curves of PSNR vs bits per pixel (bpp) for various image compression codecs evaluated on the Kodak test dataset (PhotoCD PCD0992). In order from best to worst, the codecs are elic2022, VTM, cheng2020-anchor, cheng2020-checkerboard-6M, mbt2018, AV1, mbt2018-mean, BPG, HM, bmshj2018-hyperprior, bmshj2018-factorized, WebP, JPEG2000, and JPEG."
 >}}
 {{< /figure >}}
 
