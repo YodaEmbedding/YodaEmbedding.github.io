@@ -43,9 +43,9 @@ For instance, pixels that are near each other in an image are often similar in c
 
 ## Learning-based compression: the current landscape
 
-Deep learning based approaches have recently been applied to data compression.
-Learning-based approaches have demonstrated compression performance that is competitive with traditional standard codecs.
-For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (RD) performance curves for popular and state-of-the-art (SOTA) codecs in image compression, evaluated on generic non-specialized datasets.
+Learning-based compression methods have demonstrated compression performance that is competitive with traditional methods.
+For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (RD) performance curves for popular and state-of-the-art (SOTA) codecs in image compression.
+<!-- , evaluated on generic non-specialized datasets. -->
 
 {{< figure
   src="assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png"
