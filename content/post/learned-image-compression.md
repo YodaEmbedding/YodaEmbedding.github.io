@@ -20,6 +20,7 @@ This article introduces learned image compression, and provides a brief survey o
 
 
 
+<!--
 ## What is data compression?
 
 The storage and transmission of data is a fundamental aspect of computing.
@@ -35,11 +36,14 @@ Data compression algorithms, known as *codecs*, are often specialized for encodi
 Common types of data include text, images, video, audio, and point clouds.
 Data from such sources often contains redundancy or patterns which can be identified and eliminated by a compression algorithm to represent the data more compactly.
 For instance, pixels that are near each other in an image are often similar in color, which is a phenomenon known as *spatial redundancy*.
+-->
 
 
 
 
-## Data compression: an example
+## Probabilistic modeling for data compression
+
+<!-- ## Data compression: an example -->
 
 <!--
 - \\( P(X = \text{Sunny ☀️}) = \frac{1}{2} \\)
