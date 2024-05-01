@@ -41,6 +41,49 @@ For instance, pixels that are near each other in an image are often similar in c
 
 
 
+## Learning-based compression: the current landscape
+
+Deep learning based approaches have recently been applied to data compression.
+Learning-based approaches have demonstrated compression performance that is competitive with traditional standard codecs.
+For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (RD) performance curves for popular and state-of-the-art (SOTA) codecs in image compression, evaluated on generic non-specialized datasets.
+
+{{< figure
+  src="assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png"
+  label="fig:intro/rd-curves"
+  caption="Rate-Distortion (RD) curves for various image compression codecs evaluated on the Kodak test dataset."
+  alt="Rate-Distortion (RD) curves of PSNR vs bits per pixel (bpp) for various image compression codecs evaluated on the Kodak test dataset. In order from best to worst, the codecs are elic2022, VTM, cheng2020-anchor, cheng2020-checkerboard-6M, mbt2018, AV1, mbt2018-mean, BPG, HM, bmshj2018-hyperprior, bmshj2018-factorized, WebP, JPEG2000, and JPEG."
+>}}
+{{< /figure >}}
+
+<!--
+| ![RD curves of various image compression codecs on the Kodak dataset](/~mulhaq/assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png) |
+|:--:|
+| Rate-Distortion (RD) curves for various image compression codecs on the Kodak dataset. |
+
+Non-learned codecs are marked by dashed lines.
+Learning-based codecs offer further advantages by being easier to tune for targeted data sources, e.g. faces or screencasts.  % NEEDSCITATION
+
+These techniques can be applied to many types of data sources, including images, video, audio, and point clouds.
+-->
+
+Learned compression has been applied to various types of data including images, video, and point clouds.
+For learned image compression, most prominent are approaches based on Ballé *et al.* [^ref-balle2018variational]'s compressive variational autoencoder (VAE), including [^ref-minnen2018joint] [^ref-cheng2020learned] [^ref-he2022elic].
+Other approaches based on RNNs and GANs have also been applied, including [^ref-toderici2017rnn] [^ref-mentzer2020highfidelity].
+Works in learned point cloud compression include [^ref-yan2019deep] [^ref-he2022density] [^ref-pang2022graspnet] [^ref-fu2022octattention] [^ref-you2022ipdae], and works in learned video compression include [^ref-rippel2019learned] [^ref-agustsson2020scalespaceflow] [^ref-hu2021fvc] [^ref-ho2022canf].
+
+Currently, one factor inhibiting industry adoption of learning-based codecs is that they are much more computationally expensive than traditional codecs like JPEG and WebP.
+In fact, learned compression codecs exceed reasonable computational budgets by a factor of 100--10000x.
+To remedy this, there is work being done towards designing low-complexity codecs for image compression, including [^ref-galpin2023entropy] [^ref-ladune2023coolchic] [^ref-leguay2023lowcomplexity] [^ref-kamisli2023lowcomplexity].
+
+Learned compression has also shown benefits when applied to learned machine or computer vision tasks.
+In Coding for Machines (CfM) --- also referred to as Video Coding for Machines (VCM) [^ref-duan2020vcm] --- compression is used for machine tasks such as classification, object detection, and semantic segmentation.
+In this paradigm, the encoder-side device compresses the input into a compact task-specialized bitstream that is transmitted to the decoder-side device or server for further inference.
+This idea of partially processing the input allows for significantly lower bitrates in comparison to transmitting the entire unspecialized input for inference.
+Extending this technique, scalable multi-task codecs such as [^ref-choi2021latentspace] [^ref-choi2022sichm] allocate a small base bitstream for machine tasks, and a larger enhancement bitstream for a higher-quality input reconstruction intended for human viewing.
+
+
+
+
 ## Probabilistic modeling for data compression
 
 <!-- ## Data compression: an example -->
@@ -109,48 +152,6 @@ More generally, any encoding probability distribution can be perfectly coded usi
 
 Reader should now appreciate probability distribution-based modeling.
  -->
-
-
-
-## Learning-based compression: the current landscape
-
-Deep learning based approaches have recently been applied to data compression.
-Learning-based approaches have demonstrated compression performance that is competitive with traditional standard codecs.
-For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (RD) performance curves for popular and state-of-the-art (SOTA) codecs in image compression, evaluated on generic non-specialized datasets.
-
-{{< figure
-  src="assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png"
-  label="fig:intro/rd-curves"
-  caption="Rate-Distortion (RD) curves for various image compression codecs evaluated on the Kodak test dataset."
-  alt="Rate-Distortion (RD) curves of PSNR vs bits per pixel (bpp) for various image compression codecs evaluated on the Kodak test dataset. In order from best to worst, the codecs are elic2022, VTM, cheng2020-anchor, cheng2020-checkerboard-6M, mbt2018, AV1, mbt2018-mean, BPG, HM, bmshj2018-hyperprior, bmshj2018-factorized, WebP, JPEG2000, and JPEG."
->}}
-{{< /figure >}}
-
-<!--
-| ![RD curves of various image compression codecs on the Kodak dataset](/~mulhaq/assets/img/learned-compression/rd-curves-image-kodak-psnr-rgb.png) |
-|:--:|
-| Rate-Distortion (RD) curves for various image compression codecs on the Kodak dataset. |
-
-Non-learned codecs are marked by dashed lines.
-Learning-based codecs offer further advantages by being easier to tune for targeted data sources, e.g. faces or screencasts.  % NEEDSCITATION
-
-These techniques can be applied to many types of data sources, including images, video, audio, and point clouds.
--->
-
-Learned compression has been applied to various types of data including images, video, and point clouds.
-For learned image compression, most prominent are approaches based on Ballé *et al.* [^ref-balle2018variational]'s compressive variational autoencoder (VAE), including [^ref-minnen2018joint] [^ref-cheng2020learned] [^ref-he2022elic].
-Other approaches based on RNNs and GANs have also been applied, including [^ref-toderici2017rnn] [^ref-mentzer2020highfidelity].
-Works in learned point cloud compression include [^ref-yan2019deep] [^ref-he2022density] [^ref-pang2022graspnet] [^ref-fu2022octattention] [^ref-you2022ipdae], and works in learned video compression include [^ref-rippel2019learned] [^ref-agustsson2020scalespaceflow] [^ref-hu2021fvc] [^ref-ho2022canf].
-
-Currently, one factor inhibiting industry adoption of learning-based codecs is that they are much more computationally expensive than traditional codecs like JPEG and WebP.
-In fact, learned compression codecs exceed reasonable computational budgets by a factor of 100--10000x.
-To remedy this, there is work being done towards designing low-complexity codecs for image compression, including [^ref-galpin2023entropy] [^ref-ladune2023coolchic] [^ref-leguay2023lowcomplexity] [^ref-kamisli2023lowcomplexity].
-
-Learned compression has also shown benefits when applied to learned machine or computer vision tasks.
-In Coding for Machines (CfM) --- also referred to as Video Coding for Machines (VCM) [^ref-duan2020vcm] --- compression is used for machine tasks such as classification, object detection, and semantic segmentation.
-In this paradigm, the encoder-side device compresses the input into a compact task-specialized bitstream that is transmitted to the decoder-side device or server for further inference.
-This idea of partially processing the input allows for significantly lower bitrates in comparison to transmitting the entire unspecialized input for inference.
-Extending this technique, scalable multi-task codecs such as [^ref-choi2021latentspace] [^ref-choi2022sichm] allocate a small base bitstream for machine tasks, and a larger enhancement bitstream for a higher-quality input reconstruction intended for human viewing.
 
 
 
