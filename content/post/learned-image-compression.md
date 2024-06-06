@@ -41,7 +41,7 @@ For instance, pixels that are near each other in an image are often similar in c
 
 
 
-## Learning-based compression: the current landscape
+## The current landscape
 
 Learning-based compression methods have demonstrated compression performance that is competitive with traditional methods.
 For instance, {{< cref "fig:intro/rd-curves" >}} compares the Rate-Distortion (RD) performance curves for popular and state-of-the-art (SOTA) codecs in image compression.
@@ -66,20 +66,19 @@ Learning-based codecs offer further advantages by being easier to tune for targe
 These techniques can be applied to many types of data sources, including images, video, audio, and point clouds.
 -->
 
-Learned compression has been applied to various types of data including images, video, and point clouds.
+Learned compression has been applied to various types of data including images [^ref-balle2018variational] [^ref-minnen2018joint] [^ref-cheng2020learned] [^ref-he2022elic] [^ref-toderici2017rnn] [^ref-mentzer2020highfidelity], video [^ref-rippel2019learned] [^ref-agustsson2020scalespaceflow] [^ref-hu2021fvc] [^ref-ho2022canf], and point clouds [^ref-yan2019deep] [^ref-he2022density] [^ref-pang2022graspnet] [^ref-fu2022octattention] [^ref-you2022ipdae].
 For learned image compression, most prominent are approaches based on Ballé *et al.* [^ref-balle2018variational]'s compressive variational autoencoder (VAE), including [^ref-minnen2018joint] [^ref-cheng2020learned] [^ref-he2022elic].
-Other approaches based on RNNs and GANs have also been applied, including [^ref-toderici2017rnn] [^ref-mentzer2020highfidelity].
-Works in learned point cloud compression include [^ref-yan2019deep] [^ref-he2022density] [^ref-pang2022graspnet] [^ref-fu2022octattention] [^ref-you2022ipdae], and works in learned video compression include [^ref-rippel2019learned] [^ref-agustsson2020scalespaceflow] [^ref-hu2021fvc] [^ref-ho2022canf].
+Approaches based on GANs [^ref-mentzer2020highfidelity] also show promising results in terms of perceptual quality at low rates.
 
 Currently, one factor inhibiting industry adoption of learning-based codecs is that they are much more computationally expensive than traditional codecs like JPEG and WebP.
 In fact, learned compression codecs exceed reasonable computational budgets by a factor of 100--10000x.
 To remedy this, there is work being done towards designing low-complexity codecs for image compression, including [^ref-galpin2023entropy] [^ref-ladune2023coolchic] [^ref-leguay2023lowcomplexity] [^ref-kamisli2023lowcomplexity].
 
 Learned compression has also shown benefits when applied to learned machine or computer vision tasks.
-In Coding for Machines (CfM) --- also referred to as Video Coding for Machines (VCM) [^ref-duan2020vcm] --- compression is used for machine tasks such as classification, object detection, and semantic segmentation.
-In this paradigm, the encoder-side device compresses the input into a compact task-specialized bitstream that is transmitted to the decoder-side device or server for further inference.
-This idea of partially processing the input allows for significantly lower bitrates in comparison to transmitting the entire unspecialized input for inference.
-Extending this technique, scalable multi-task codecs such as [^ref-choi2021latentspace] [^ref-choi2022sichm] allocate a small base bitstream for machine tasks, and a larger enhancement bitstream for a higher-quality input reconstruction intended for human viewing.
+In Coding for Machines (CfM) or [Video Coding for Machines (VCM)](https://mpeg.chiariglione.org/standards/exploration/video-coding-machines) [^ref-duan2020vcm] [^ref-choi2021latentspace] [^ref-choi2022sichm], compression is used for machine tasks such as classification, object detection, and semantic segmentation.
+In this paradigm, the encoder-side device compresses the input into a compact task-specialized bitstream that is transmitted to the decoder-side device for further inference.
+This idea of partially processing the input allows for significantly lower bitrates compared to transmitting the entire unspecialized input.
+<!-- Extending this technique, scalable multi-task codecs such as [^ref-choi2021latentspace] [^ref-choi2022sichm] allocate a small base bitstream for machine tasks, and a larger enhancement bitstream for a higher-quality input reconstruction intended for human viewing. -->
 
 
 
