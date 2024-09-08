@@ -1,3 +1,7 @@
 [submodule "themes/hugo-astatine-theme"]
 	path = themes/hugo-astatine-theme
 	url = https://github.com/YodaEmbedding/hugo-astatine-theme
+[submodule "submodules/self"]
+	path = submodules/self
+	url = git@github.com:YodaEmbedding/YodaEmbedding.github.io.git
+	branch = static
