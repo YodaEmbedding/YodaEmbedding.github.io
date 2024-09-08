@@ -1,4 +1,5 @@
-baseURL = 'https://www.sfu.ca/~mulhaq/'
+# baseURL = 'https://www.sfu.ca/~mulhaq/'
+baseURL = 'https://yodaembedding.github.io/'
 languageCode = 'en-us'
 title = 'Mateen Ulhaq'
 theme = 'hugo-astatine-theme'
