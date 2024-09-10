@@ -1,0 +1,11 @@
+{{- $figureClass := "" -}}
+{{- $figureClass = "block bg-white dark:bg-neutral-700 p-2 my-2 rounded-md shadow-md shadow-neutral-300 dark:shadow-neutral-800 text-center" -}}
+{{- (printf "<figure class=\"%s\" %s>" ($figureClass) (.Get "figureattrs")) | safeHTML -}}
+<!-- <img src="{{ .Site.BaseURL }}{{ .Get `src` }}" /> -->
+{{- (printf "<img class=\"%s\" src=\"%s%s\" alt=\"%s\" %s />" ("mainfigure p-2") (.Site.BaseURL) (.Get "src") (.Get "alt") (.Get "imgattrs")) | safeHTML -}}
+<figcaption>
+  {{ .Get "caption" | markdownify -}}
+  <!-- {{ .Inner | markdownify -}}   caption -->
+</figcaption>
+</figure>
+
