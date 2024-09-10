@@ -1,4 +1,7 @@
 +++
+type = "redirect"
+target = "https://yodaembedding.github.io/about/"
+
 title = "About"
 hideAuthor = true
 hideDate = true

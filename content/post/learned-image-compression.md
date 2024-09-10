@@ -1,4 +1,7 @@
 +++
+type = "redirect"
+target = "https://yodaembedding.github.io/post/learned-image-compression/"
+
 date = "2024-01-01T00:00:00-08:00"
 title = "Learned Image Compression: Introduction"
 slug = "learned-image-compression"

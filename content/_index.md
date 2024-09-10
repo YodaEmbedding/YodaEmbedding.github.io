@@ -1,4 +1,7 @@
 ---
+type: "redirect"
+target: "https://yodaembedding.github.io/"
+
 title: "Home"
 
 name: "Mateen Ulhaq"
